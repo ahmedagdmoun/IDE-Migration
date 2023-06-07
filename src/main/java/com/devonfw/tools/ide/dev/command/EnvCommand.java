@@ -1,7 +1,4 @@
-package com.devonfw.tools.ide.dev.environment;
-
-import com.devonfw.tools.ide.dev.command.AbstractCommand;
-import picocli.CommandLine;
+package com.devonfw.tools.ide.dev.command;
 
 public abstract class EnvCommand extends AbstractCommand {
 

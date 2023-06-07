@@ -1,19 +1,17 @@
 package com.devonfw.tools.ide.dev.environment;
 
+import com.devonfw.tools.ide.dev.command.EnvCommand;
 import picocli.CommandLine;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Properties;
-import java.util.concurrent.Callable;
 
 @CommandLine.Command(name = "env",
         description = "This command prints out the devonfw-ide environment variables"
