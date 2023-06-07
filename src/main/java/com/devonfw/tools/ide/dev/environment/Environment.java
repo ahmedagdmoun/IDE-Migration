@@ -2,12 +2,15 @@ package com.devonfw.tools.ide.dev.environment;
 
 import picocli.CommandLine;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.concurrent.Callable;
@@ -15,11 +18,9 @@ import java.util.concurrent.Callable;
 @CommandLine.Command(name = "env",
         description = "This command prints out the devonfw-ide environment variables"
 )
-public final class Environment implements Callable<Integer> {
+public final class Environment extends EnvCommand {
 
-    final Integer SUCCESS = 0;
-
-    @CommandLine.Option(names = "var")
+    @CommandLine.Option(names = "var", description = "this option is used to print out a certain environment variable")
     private String variable;
 
     private static final Environment INSTANCE = new Environment();
@@ -39,21 +40,29 @@ public final class Environment implements Callable<Integer> {
         this.properties.put("DEVON_IDE_HOME", DEVON_IDE_HOME);
         // load all devon.properties in the order defined by
         // https://github.com/devonfw/ide/blob/master/documentation/configuration.asciidoc
-        try{
-            //this.properties.load(new FileInputStream(System.getProperty("user.home")+"/devon.properties"));
-            this.properties.load(new FileInputStream(DEVON_IDE_HOME+"/scripts/devon.properties"));
-            this.properties.load(new FileInputStream(DEVON_IDE_HOME+"/settings/devon.properties"));
-            this.properties.load(new FileInputStream(DEVON_IDE_HOME+"/conf/devon.properties"));
-            //this.properties.load(new FileInputStream(DEVON_IDE_HOME+"/settings/projects/*.properties"));
-            for (String key : properties.stringPropertyNames()) {
-                String value = properties.getProperty(key);
-                if (value.contains("${DEVON_IDE_HOME}")){
-                    value = value.replace("${DEVON_IDE_HOME}", DEVON_IDE_HOME);
-                    this.properties.replace(key, value);
+        List<String> propertiesPaths = new ArrayList<>();
+        propertiesPaths.add(System.getProperty("user.home")+"/devon.properties");
+        propertiesPaths.add(DEVON_IDE_HOME+"/scripts/devon.properties");
+        propertiesPaths.add(DEVON_IDE_HOME+"/settings/devon.properties");
+        propertiesPaths.add(DEVON_IDE_HOME+"/conf/devon.properties");
+        propertiesPaths.add(DEVON_IDE_HOME+"/settings/projects/*.properties");
+        for (String propertiesPath : propertiesPaths) {
+            File file = new File(propertiesPath);
+            if (file.exists()) {
+                try{
+                    this.properties.load(new FileInputStream(propertiesPath));
+                }
+                catch (IOException e){
+                    e.printStackTrace();
                 }
             }
-        } catch(IOException e){
-            e.printStackTrace();
+        }
+        for (String key : properties.stringPropertyNames()) {
+            String value = properties.getProperty(key);
+            if (value.contains("${DEVON_IDE_HOME}")){
+                value = value.replace("${DEVON_IDE_HOME}", DEVON_IDE_HOME);
+                this.properties.replace(key, value);
+            }
         }
     }
 
@@ -132,7 +141,7 @@ public final class Environment implements Callable<Integer> {
     }
 
     @Override
-    public Integer call() throws Exception {
+    protected void envCommand() {
         if (variable == null || variable.isEmpty()){
             for (String variableName : properties.stringPropertyNames()) {
                 String variableValue = properties.getProperty(variableName);
@@ -149,6 +158,5 @@ public final class Environment implements Callable<Integer> {
                 System.out.println(variable + "=" + value);
             }
         }
-        return SUCCESS;
     }
 }
