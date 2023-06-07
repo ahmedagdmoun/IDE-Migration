@@ -4,7 +4,6 @@ import com.devonfw.tools.ide.dev.environment.Environment;
 import com.devonfw.tools.ide.dev.command.Gh;
 import com.devonfw.tools.ide.dev.command.Java;
 import picocli.CommandLine;
-
 import java.util.concurrent.Callable;
 
 
@@ -25,7 +24,6 @@ import java.util.concurrent.Callable;
 )
 public class Devon implements Callable<Integer> {
     final Integer SUCCESS = 0;
-    final Integer FAILURE = 1;
 
     public static void main(String... args) {
         int exitStatus = new CommandLine(new Devon())

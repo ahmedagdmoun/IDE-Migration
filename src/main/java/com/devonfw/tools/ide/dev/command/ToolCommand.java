@@ -12,20 +12,20 @@ public abstract class ToolCommand extends AbstractCommand {
     protected abstract String getTool();
     protected abstract void startTool();
 
-    @CommandLine.Option(names = "setup")
+    @CommandLine.Option(names = "setup", description = "this option is used to setup the tool")
     private boolean setup;
 
-    @CommandLine.Option(names = {"version", "versions", "v"})
+    @CommandLine.Option(names = {"version", "versions", "v"}, description = "this option is used handle versions for the tool and needs to be followed by other options")
     private boolean version;
 
-    @CommandLine.Option(names = {"list", "ls"})
+    @CommandLine.Option(names = {"list", "ls"}, description = "this option is used in combination with the <versions> option to list the versions")
     private boolean list;
 
     @CommandLine.ArgGroup(exclusive = false)
     SetVersion setVersion;
 
     static class SetVersion{
-        @CommandLine.Option(names = {"set", "sv"}, description = "this option is used to set a certain version")
+        @CommandLine.Option(names = {"set", "sv"}, description = "this option is used in combination with the <versions> option to set a certain version")
         boolean setVersion;
 
         @CommandLine.Option(names = {"-v", "--version"}, required = true, description = "the version to set")
