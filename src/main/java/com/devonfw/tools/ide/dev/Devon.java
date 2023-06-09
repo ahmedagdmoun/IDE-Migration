@@ -1,20 +1,17 @@
 package com.devonfw.tools.ide.dev;
 
 import com.devonfw.tools.ide.dev.environment.Environment;
-import com.devonfw.tools.ide.dev.command.Gh;
-import com.devonfw.tools.ide.dev.command.Java;
+import com.devonfw.tools.ide.dev.tool.Gh;
+import com.devonfw.tools.ide.dev.tool.Java;
 import picocli.CommandLine;
 import java.util.concurrent.Callable;
 
 
 @CommandLine.Command(name = "devon",
         version = "1.0.0",
-        mixinStandardHelpOptions = true,
-        requiredOptionMarker = '*',
         description = "This is a Devon CLI",
         header = "Devon CLI",
         optionListHeading = "%nOptions are:%n",
-        subcommandsRepeatable = true,
         commandListHeading = "%nSubCommands are: %n",
         subcommands = {
                 Java.class,
