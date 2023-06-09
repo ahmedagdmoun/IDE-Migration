@@ -5,7 +5,6 @@ import com.devonfw.tools.ide.dev.environment.Environment;
 import java.io.*;
 import java.net.URL;
 import java.nio.file.Files;
-import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
@@ -152,6 +151,7 @@ public class Functions {
 
     public static void setup(String url, String targetDir, String software, String version, String edition, String code, String os, String arch, String ext, String filename) {
         doLicenseAgreement();
+        System.out.println("Setting up "+software+"...");
         File targetDirFile = new File(targetDir);
         if (!targetDirFile.exists()) {
             targetDirFile.mkdirs();
@@ -207,6 +207,7 @@ public class Functions {
             e.printStackTrace();
         }
         downloadAndExtract(software, version, url, String.valueOf(tmpFile), targetDir, filename);
+        System.out.println("Installation of "+software+" succeeded.");
     }
 
     private static void createOrUpdateVersionFile(String software, String version, String softwareDir) {
@@ -395,16 +396,18 @@ public class Functions {
 
         String fileName = file.getName();
         String fileExtension = fileName.substring(fileName.lastIndexOf('.'));
-
+        System.out.println("Extracting files to " + targetSubDir.toString()+"...");
         switch (fileExtension) {
             case ".tar":
             case ".tgz":
             case ".tbz2":
                 extractTar(file, targetPath);
+                System.out.println(fileName+" was successfully extracted.");
                 break;
             case ".zip":
             case ".jar":
                 extractZip(file, targetPath);
+                System.out.println(fileName+" was successfully extracted.");
                 break;
             default:
                 throw new IllegalArgumentException("Unknown archive format: " + fileExtension);

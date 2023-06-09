@@ -1,17 +1,17 @@
-package com.devonfw.tools.ide.dev.command;
+package com.devonfw.tools.ide.dev.tool;
 
+import com.devonfw.tools.ide.dev.command.ToolCommand;
 import com.devonfw.tools.ide.dev.environment.Environment;
 import com.devonfw.tools.ide.dev.functions.Functions;
 import picocli.CommandLine;
 
 import java.io.*;
-import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 
 @CommandLine.Command(name = "java",
         description = "This is java commandlet"
 )
-public class Java extends ToolCommand{
+public class Java extends ToolCommand {
 
     private static final String DEVON_IDE_HOME = Environment.get().get("DEVON_IDE_HOME");
     private static final String DEVON_SOFTWARE_DIR = DEVON_IDE_HOME + "/software/";
