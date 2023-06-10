@@ -15,6 +15,7 @@
         <mainClass>com.devonfw.tools.ide.dev.Devon</mainClass>
         <imageName>devon</imageName>
         <picocli.version>4.7.3</picocli.version>
+        <native.maven.plugin.version>0.9.22</native.maven.plugin.version>
     </properties>
 
     <dependencies>
@@ -51,16 +52,6 @@
                 <configuration>
                     <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.target}</target>
-                    <annotationProcessorPaths>
-                        <path>
-                            <groupId>info.picocli</groupId>
-                            <artifactId>picocli-codegen</artifactId>
-                            <version>${picocli.version}</version>
-                        </path>
-                    </annotationProcessorPaths>
-                    <compilerArgs>
-                        <arg>-Aproject=${project.groupId}/${project.artifactId}</arg>
-                    </compilerArgs>
                 </configuration>
             </plugin>
             <plugin>
@@ -95,7 +86,7 @@
                     <plugin>
                         <groupId>org.graalvm.buildtools</groupId>
                         <artifactId>native-maven-plugin</artifactId>
-                        <version>0.9.22</version>
+                        <version>${native.maven.plugin.version}</version>
                         <extensions>true</extensions>
                         <executions>
                             <execution>
@@ -118,8 +109,6 @@
                                 <enabled>true</enabled>
                             </agent>
                             <buildArgs>
-                                <arg>-cp</arg>
-                                <arg>picocli-4.7.3.jar</arg>
                                 <arg>--enable-url-protocols=https</arg>
                                 <arg>--static</arg>
                             </buildArgs>
