@@ -4,6 +4,7 @@ import com.devonfw.tools.ide.dev.environment.Environment;
 import com.devonfw.tools.ide.dev.functions.Functions;
 import picocli.CommandLine;
 
+import java.nio.file.Path;
 import java.util.Locale;
 
 public abstract class ToolCommand extends AbstractCommand {
@@ -28,7 +29,7 @@ public abstract class ToolCommand extends AbstractCommand {
         @CommandLine.Option(names = {"set", "sv"}, description = "this option is used in combination with the <versions> option to set a certain version")
         boolean setVersion;
 
-        @CommandLine.Option(names = {"-v", "--version"}, required = true, description = "the version to set")
+        @CommandLine.Parameters
         String version;
     }
 
@@ -68,7 +69,7 @@ public abstract class ToolCommand extends AbstractCommand {
         return version;
     }
     protected void setup() {
-        Functions.setup("", DEVON_DOWNLOADS_DIR, getTool(), getVersion(), "", "", "", "", "", "");
+        Functions.setup("", Path.of(DEVON_DOWNLOADS_DIR+getTool()+"/").toString(), getTool(), getVersion(), "", "", "", "");
     }
 
     protected void listVersions(){

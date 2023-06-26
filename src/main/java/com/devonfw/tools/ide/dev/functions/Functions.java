@@ -149,7 +149,7 @@ public class Functions {
         }
     }
 
-    public static void setup(String url, String targetDir, String software, String version, String edition, String code, String os, String arch, String ext, String filename) {
+    public static void setup(String url, String targetDir, String software, String version, String edition, String os, String ext, String filename) {
         doLicenseAgreement();
         System.out.println("Setting up "+software+"...");
         File targetDirFile = new File(targetDir);
@@ -164,9 +164,6 @@ public class Functions {
         }
 
         if (url.isEmpty() || url.equals("-")) {
-            if (arch.isEmpty()) {
-                arch = System.getProperty("os.arch");
-            }
             if (os.isEmpty()) {
                 if (isMacOs()) {
                     os = "mac";
@@ -177,12 +174,12 @@ public class Functions {
                 }
             }
         }
-        if (edition.isEmpty() || edition == null) {
+        if (edition.isEmpty()) {
             edition = software;
         } else {
             saveEditionVariable(software, edition);
         }
-        if (version.isEmpty() || version == null) {
+        if (version.isEmpty()) {
             version = getLatestVersion(software, edition);
         }
         String urlDir = DEVON_IDE_HOME + "/urls/" + software + "/" + edition + "/" + version;
